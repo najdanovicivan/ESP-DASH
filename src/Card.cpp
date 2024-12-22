@@ -30,16 +30,7 @@ void Card::attachCallback(std::function<void(int value)> cb){
   Value update methods
 */
 void Card::update(int value, const char* symbol){
-  /* Clear String if it was used before */
-  if(_value_type == Card::STRING){
-    _value_s = "";
-  }
-  /* Store new value */
-  _value_type = Card::INTEGER;
   _symbol = symbol;
-  if(_value_i != value)
-    _changed = true;
-  _value_i = value;
 }
 
 void Card::update(int value){
@@ -47,24 +38,16 @@ void Card::update(int value){
   if(_value_type == Card::STRING){
     _value_s = "";
   }
+  if(_value_type != Card::INTEGER || _value_i != value)
+    _changed = true;
   /* Store new value */
   _value_type = Card::INTEGER;
-  if(_value_i != value)
-    _changed = true;
   _value_i = value;
 }
 
 void Card::update(float value, const char* symbol){
-  /* Clear String if it was used before */
-  if(_value_type == Card::STRING){
-    _value_s = "";
-  }
-  /* Store new value */
-  _value_type = Card::FLOAT;
   _symbol = symbol;
-  if(_value_f != value)
-    _changed = true;
-  _value_f = value;
+  update(value);
 }
 
 void Card::update(float value){
@@ -72,10 +55,10 @@ void Card::update(float value){
   if(_value_type == Card::STRING){
     _value_s = "";
   }
+  if(_value_type != Card::FLOAT || _value_f != value)
+    _changed = true;
   /* Store new value */
   _value_type = Card::FLOAT;
-  if(_value_f != value)
-    _changed = true;
   _value_f = value;
 }
 
@@ -88,18 +71,14 @@ void Card::update(const String &value){
 }
 
 void Card::update(const char* value, const char* symbol){
-  if(_value_type == Card::STRING){
-    if(strcmp(_value_s.c_str(), value) != 0)
-      _changed = true;
-  }
-  
-  _value_type = Card::STRING;
   _symbol = symbol;
-  _value_s = value;
+  update(value);
 }
 
 void Card::update(const char* value){
-    if(_value_type == Card::STRING){
+  if(_value_type != Card::STRING)
+    _changed = true;
+  else if(_value_type == Card::STRING){
     if(strcmp(_value_s.c_str(), value) != 0)
       _changed = true;
   }
@@ -109,16 +88,8 @@ void Card::update(const char* value){
 }
 
 void Card::update(bool value, const char* symbol){
-  /* Clear String if it was used before */
-  if(_value_type == Card::STRING){
-    _value_s = "";
-  }
-  /* Store new value */
-  _value_type = Card::INTEGER;
   _symbol = symbol;
-  if(_value_i != value)
-    _changed = true;
-  _value_i = value;
+  update(value);
 }
 
 void Card::update(bool value){
@@ -126,10 +97,10 @@ void Card::update(bool value){
   if(_value_type == Card::STRING){
     _value_s = "";
   }
+  if(_value_type != Card::INTEGER || _value_i != value)
+    _changed = true;
   /* Store new value */
   _value_type = Card::INTEGER;
-  if(_value_i != value)
-    _changed = true;
   _value_i = value;
 }
 
